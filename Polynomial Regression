@@ -1,0 +1,547 @@
+```python
+import numpy as np
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import PolynomialFeatures
+import pandas as pd
+
+df = pd.read_csv("b2_2d.csv")
+x = df[["t(s)", "w1(mm)", "w2(mm)", "p(mmH2O)", "X1(mm)", "X2(mm)", "X3(mm)", "X4(deg)", "X5(deg)", "X7(mm)", "Q(m^3/s)"]].values
+y = df["pow1(w)"].values
+
+transformer = PolynomialFeatures(degree=2, include_bias=False)
+transformer.fit(x)
+
+
+
+
+```
+
+
+
+
+<style>#sk-container-id-1 {
+  /* Definition of color scheme common for light and dark mode */
+  --sklearn-color-text: black;
+  --sklearn-color-line: gray;
+  /* Definition of color scheme for unfitted estimators */
+  --sklearn-color-unfitted-level-0: #fff5e6;
+  --sklearn-color-unfitted-level-1: #f6e4d2;
+  --sklearn-color-unfitted-level-2: #ffe0b3;
+  --sklearn-color-unfitted-level-3: chocolate;
+  /* Definition of color scheme for fitted estimators */
+  --sklearn-color-fitted-level-0: #f0f8ff;
+  --sklearn-color-fitted-level-1: #d4ebff;
+  --sklearn-color-fitted-level-2: #b3dbfd;
+  --sklearn-color-fitted-level-3: cornflowerblue;
+
+  /* Specific color for light theme */
+  --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, white)));
+  --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-icon: #696969;
+
+  @media (prefers-color-scheme: dark) {
+    /* Redefinition of color scheme for dark theme */
+    --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, #111)));
+    --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-icon: #878787;
+  }
+}
+
+#sk-container-id-1 {
+  color: var(--sklearn-color-text);
+}
+
+#sk-container-id-1 pre {
+  padding: 0;
+}
+
+#sk-container-id-1 input.sk-hidden--visually {
+  border: 0;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+#sk-container-id-1 div.sk-dashed-wrapped {
+  border: 1px dashed var(--sklearn-color-line);
+  margin: 0 0.4em 0.5em 0.4em;
+  box-sizing: border-box;
+  padding-bottom: 0.4em;
+  background-color: var(--sklearn-color-background);
+}
+
+#sk-container-id-1 div.sk-container {
+  /* jupyter's `normalize.less` sets `[hidden] { display: none; }`
+     but bootstrap.min.css set `[hidden] { display: none !important; }`
+     so we also need the `!important` here to be able to override the
+     default hidden behavior on the sphinx rendered scikit-learn.org.
+     See: https://github.com/scikit-learn/scikit-learn/issues/21755 */
+  display: inline-block !important;
+  position: relative;
+}
+
+#sk-container-id-1 div.sk-text-repr-fallback {
+  display: none;
+}
+
+div.sk-parallel-item,
+div.sk-serial,
+div.sk-item {
+  /* draw centered vertical line to link estimators */
+  background-image: linear-gradient(var(--sklearn-color-text-on-default-background), var(--sklearn-color-text-on-default-background));
+  background-size: 2px 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+/* Parallel-specific style estimator block */
+
+#sk-container-id-1 div.sk-parallel-item::after {
+  content: "";
+  width: 100%;
+  border-bottom: 2px solid var(--sklearn-color-text-on-default-background);
+  flex-grow: 1;
+}
+
+#sk-container-id-1 div.sk-parallel {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background-color: var(--sklearn-color-background);
+  position: relative;
+}
+
+#sk-container-id-1 div.sk-parallel-item {
+  display: flex;
+  flex-direction: column;
+}
+
+#sk-container-id-1 div.sk-parallel-item:first-child::after {
+  align-self: flex-end;
+  width: 50%;
+}
+
+#sk-container-id-1 div.sk-parallel-item:last-child::after {
+  align-self: flex-start;
+  width: 50%;
+}
+
+#sk-container-id-1 div.sk-parallel-item:only-child::after {
+  width: 0;
+}
+
+/* Serial-specific style estimator block */
+
+#sk-container-id-1 div.sk-serial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--sklearn-color-background);
+  padding-right: 1em;
+  padding-left: 1em;
+}
+
+
+/* Toggleable style: style used for estimator/Pipeline/ColumnTransformer box that is
+clickable and can be expanded/collapsed.
+- Pipeline and ColumnTransformer use this feature and define the default style
+- Estimators will overwrite some part of the style using the `sk-estimator` class
+*/
+
+/* Pipeline and ColumnTransformer style (default) */
+
+#sk-container-id-1 div.sk-toggleable {
+  /* Default theme specific background. It is overwritten whether we have a
+  specific estimator or a Pipeline/ColumnTransformer */
+  background-color: var(--sklearn-color-background);
+}
+
+/* Toggleable label */
+#sk-container-id-1 label.sk-toggleable__label {
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  margin-bottom: 0;
+  padding: 0.5em;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+#sk-container-id-1 label.sk-toggleable__label-arrow:before {
+  /* Arrow on the left of the label */
+  content: "▸";
+  float: left;
+  margin-right: 0.25em;
+  color: var(--sklearn-color-icon);
+}
+
+#sk-container-id-1 label.sk-toggleable__label-arrow:hover:before {
+  color: var(--sklearn-color-text);
+}
+
+/* Toggleable content - dropdown */
+
+#sk-container-id-1 div.sk-toggleable__content {
+  max-height: 0;
+  max-width: 0;
+  overflow: hidden;
+  text-align: left;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-1 div.sk-toggleable__content.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-1 div.sk-toggleable__content pre {
+  margin: 0.2em;
+  border-radius: 0.25em;
+  color: var(--sklearn-color-text);
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-1 div.sk-toggleable__content.fitted pre {
+  /* unfitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-1 input.sk-toggleable__control:checked~div.sk-toggleable__content {
+  /* Expand drop-down */
+  max-height: 200px;
+  max-width: 100%;
+  overflow: auto;
+}
+
+#sk-container-id-1 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
+  content: "▾";
+}
+
+/* Pipeline/ColumnTransformer-specific style */
+
+#sk-container-id-1 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-1 div.sk-label.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator-specific style */
+
+/* Colorize estimator box */
+#sk-container-id-1 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-1 div.sk-estimator.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+#sk-container-id-1 div.sk-label label.sk-toggleable__label,
+#sk-container-id-1 div.sk-label label {
+  /* The background is the default theme color */
+  color: var(--sklearn-color-text-on-default-background);
+}
+
+/* On hover, darken the color of the background */
+#sk-container-id-1 div.sk-label:hover label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+/* Label box, darken color on hover, fitted */
+#sk-container-id-1 div.sk-label.fitted:hover label.sk-toggleable__label.fitted {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator label */
+
+#sk-container-id-1 div.sk-label label {
+  font-family: monospace;
+  font-weight: bold;
+  display: inline-block;
+  line-height: 1.2em;
+}
+
+#sk-container-id-1 div.sk-label-container {
+  text-align: center;
+}
+
+/* Estimator-specific */
+#sk-container-id-1 div.sk-estimator {
+  font-family: monospace;
+  border: 1px dotted var(--sklearn-color-border-box);
+  border-radius: 0.25em;
+  box-sizing: border-box;
+  margin-bottom: 0.5em;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-1 div.sk-estimator.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+/* on hover */
+#sk-container-id-1 div.sk-estimator:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-1 div.sk-estimator.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Specification for estimator info (e.g. "i" and "?") */
+
+/* Common style for "i" and "?" */
+
+.sk-estimator-doc-link,
+a:link.sk-estimator-doc-link,
+a:visited.sk-estimator-doc-link {
+  float: right;
+  font-size: smaller;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1em;
+  height: 1em;
+  width: 1em;
+  text-decoration: none !important;
+  margin-left: 1ex;
+  /* unfitted */
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+  color: var(--sklearn-color-unfitted-level-1);
+}
+
+.sk-estimator-doc-link.fitted,
+a:link.sk-estimator-doc-link.fitted,
+a:visited.sk-estimator-doc-link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+div.sk-estimator:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover,
+div.sk-label-container:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+div.sk-estimator.fitted:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover,
+div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+/* Span, style for the box shown on hovering the info icon */
+.sk-estimator-doc-link span {
+  display: none;
+  z-index: 9999;
+  position: relative;
+  font-weight: normal;
+  right: .2ex;
+  padding: .5ex;
+  margin: .5ex;
+  width: min-content;
+  min-width: 20ex;
+  max-width: 50ex;
+  color: var(--sklearn-color-text);
+  box-shadow: 2pt 2pt 4pt #999;
+  /* unfitted */
+  background: var(--sklearn-color-unfitted-level-0);
+  border: .5pt solid var(--sklearn-color-unfitted-level-3);
+}
+
+.sk-estimator-doc-link.fitted span {
+  /* fitted */
+  background: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-3);
+}
+
+.sk-estimator-doc-link:hover span {
+  display: block;
+}
+
+/* "?"-specific style due to the `<a>` HTML tag */
+
+#sk-container-id-1 a.estimator_doc_link {
+  float: right;
+  font-size: 1rem;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1rem;
+  height: 1rem;
+  width: 1rem;
+  text-decoration: none;
+  /* unfitted */
+  color: var(--sklearn-color-unfitted-level-1);
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+}
+
+#sk-container-id-1 a.estimator_doc_link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+#sk-container-id-1 a.estimator_doc_link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+#sk-container-id-1 a.estimator_doc_link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+}
+</style><div id="sk-container-id-1" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>PolynomialFeatures(include_bias=False)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-1" type="checkbox" checked><label for="sk-estimator-id-1" class="sk-toggleable__label fitted sk-toggleable__label-arrow fitted">&nbsp;&nbsp;PolynomialFeatures<a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.5/modules/generated/sklearn.preprocessing.PolynomialFeatures.html">?<span>Documentation for PolynomialFeatures</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></label><div class="sk-toggleable__content fitted"><pre>PolynomialFeatures(include_bias=False)</pre></div> </div></div></div></div>
+
+
+
+
+```python
+x_ = transformer.transform(x)
+x_
+```
+
+
+
+
+    array([[ 0.00000000e+00,  1.07363000e+00,  3.58998000e+00, ...,
+             2.75221464e+00,  1.09711168e-04,  4.37340174e-09],
+           [ 3.12500000e-02, -7.31601000e-02, -2.57542000e-01, ...,
+             3.42845959e+00,  7.14636286e-05,  1.48960490e-09],
+           [ 6.25000000e-02, -1.00047000e+00, -3.33244000e+00, ...,
+             3.77501584e+00, -1.13452735e-04,  3.40966070e-09],
+           ...,
+           [ 2.55906000e+02,  1.13563000e+01,  2.09623000e+01, ...,
+             4.11306792e+00, -2.88328684e-04,  2.02120246e-08],
+           [ 2.55938000e+02,  7.91046000e+00,  1.46877000e+01, ...,
+             2.42745748e+00, -2.16882450e-04,  1.93774752e-08],
+           [ 2.55969000e+02,  4.36035000e+00,  8.88129000e+00, ...,
+             1.00781521e+00, -1.62692034e-04,  2.62634436e-08]])
+
+
+
+
+```python
+model = LinearRegression().fit(x_, y)
+```
+
+
+```python
+r_sq = model.score(x_, y)
+print(f"coefficient of determination: {r_sq}")
+
+print(f"intercept: {model.intercept_}")
+
+print(f"coefficients: {model.coef_}")
+
+```
+
+    coefficient of determination: 0.999999999994999
+    intercept: -0.0002758553630299401
+    coefficients: [-9.32581621e-09 -5.39262589e-08  6.41872713e-08 -2.51471451e-06
+      1.10479038e-08 -4.79554988e-07 -3.78609676e-06  2.60842168e-05
+      3.07488876e-05  1.82717315e-07  7.23274020e-03 -3.93970906e-14
+     -3.01512037e-14 -1.29999737e-13  5.96380975e-12  4.57921018e-13
+      2.72995839e-13 -3.88966366e-11  2.50243090e-10  1.41765355e-10
+      2.57448160e-13 -1.34157726e-08  3.21363226e-12 -3.40289727e-14
+     -2.18505834e-10 -6.12977469e-13  9.59016087e-12 -1.30129062e-11
+     -5.13323501e-10 -4.10819837e-09 -1.10916688e-11  7.82776137e-07
+      2.17637974e-13  1.10947582e-10  6.12850048e-13  1.74427465e-11
+      2.07840308e-10  5.95933963e-10  2.67414903e-09  3.49290865e-12
+     -4.47353396e-07  1.25627009e-09 -1.33139041e-10 -4.41844977e-10
+     -7.62249034e-09  4.64823761e-08 -4.15733814e-08 -1.13682054e-11
+      9.80999009e+00 -3.72530310e-11  7.44276409e-11 -6.05672890e-10
+     -2.90103856e-09  5.78574282e-09  3.21054117e-11  4.53319481e-07
+      9.15918720e-11  1.79177658e-10  1.47090284e-08 -1.72653732e-08
+     -9.42295236e-11  2.11847867e-06 -9.46744880e-09  1.07188625e-07
+      8.53776111e-08  5.60146312e-10  1.99557925e-05 -4.68597130e-07
+     -3.57380481e-07 -3.33469013e-09 -1.08861664e-04  2.58178323e-07
+      1.19795758e-09  1.91487905e-04 -7.47728702e-14  1.58913949e-07
+      1.76103218e-02]
+
+
+
+```python
+>>> x_ = PolynomialFeatures(degree=2, include_bias=True).fit_transform(x)
+>>> model = LinearRegression(fit_intercept=False).fit(x_, y)
+r_sq = model.score(x_, y)
+print(f"coefficient of determination: {r_sq}")
+
+print(f"intercept: {model.intercept_}")
+
+print(f"coefficients: {model.coef_}")
+
+
+```
+
+    coefficient of determination: 0.999999999994999
+    intercept: 0.0
+    coefficients: [-2.75855401e-04 -9.32580692e-09 -5.39262374e-08  6.41872557e-08
+     -2.51471459e-06  1.10479812e-08 -4.79555005e-07 -3.78609696e-06
+      2.60842180e-05  3.07488881e-05  1.82717310e-07  7.23274029e-03
+     -3.93961720e-14 -3.01495412e-14 -1.30000506e-13  5.96380658e-12
+      4.57922600e-13  2.73000111e-13 -3.88965377e-11  2.50244679e-10
+      1.41766321e-10  2.57449146e-13 -1.34157885e-08  3.21363920e-12
+     -3.40351662e-14 -2.18505912e-10 -6.12764966e-13  9.58990047e-12
+     -1.30126392e-11 -5.13321147e-10 -4.10819678e-09 -1.10918109e-11
+      7.82776043e-07  2.17660633e-13  1.10947548e-10  6.12648821e-13
+      1.74435466e-11  2.07840921e-10  5.95931722e-10  2.67414630e-09
+      3.49299192e-12 -4.47353272e-07  1.25627127e-09 -1.33139395e-10
+     -4.41846234e-10 -7.62249360e-09  4.64823751e-08 -4.15733772e-08
+     -1.13694291e-11  9.80999009e+00 -3.72528232e-11  7.44270505e-11
+     -6.05672515e-10 -2.90103883e-09  5.78574416e-09  3.21050226e-11
+      4.53319492e-07  9.15930944e-11  1.79179608e-10  1.47090251e-08
+     -1.72653758e-08 -9.42308679e-11  2.11847868e-06 -9.46744751e-09
+      1.07188627e-07  8.53776121e-08  5.60142974e-10  1.99557928e-05
+     -4.68597131e-07 -3.57380482e-07 -3.33469554e-09 -1.08861664e-04
+      2.58178333e-07  1.19796154e-09  1.91487907e-04 -7.45076743e-14
+      1.58913949e-07  1.76103218e-02]
+
+
+
+```python
+y_pred = model.predict(x_)
+print(f"predicted response:\n{y_pred}")
+```
+
+    predicted response:
+    [ 1.64237152e-04  8.17704417e-05 -1.80821289e-04 ...  1.29030908e-04
+      2.84527003e-04  2.83751619e-04]
+
+
+
+```python
+
+```
